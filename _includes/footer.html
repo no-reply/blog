@@ -1,0 +1,37 @@
+<footer class="site-footer">
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="social-media-list">
+          {% if site.github_username %}
+          <li>
+            {% include icon-github.html username=site.github_username %}
+          </li>
+          {% endif %}
+
+          {% if site.twitter_username %}
+          <li>
+            {% include icon-twitter.html username=site.twitter_username %}
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2">
+      </div>
+
+      <div class="footer-col footer-col-3">
+        <ul class="contact-list">
+          <!-- <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li> -->
+          <li style="line-height: 1; font-family: hack, monospace; font-size: 9pt;">
+            <a href="{{ "/keys/" | prepend: site.baseurl }}">B6D8 FF64 6D2C 050E 466C</br>D1DA 2100 280C 84A0 7984</a>
+          </li>
+        </ul>
+        <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>

@@ -1,0 +1,33 @@
+---
+layout: default
+---
+
+<div class="home">
+  <div class="posts-index index">
+    <h1 class="page-heading">Posts</h1>
+
+    <ul class="post-list">
+      {% for post in site.posts %}
+      <li>
+        <h2>
+          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+        </h2>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="notes-index index">
+    <h1 class="page-heading">Notes</h1>
+
+    <ul class="note-list">
+      {% for note in site.notes %}
+      <li>
+        <h2>
+          <a class="post-link" href="{{ note.url | prepend: site.baseurl }}">{{ note.title }}</a>
+        </h2>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
