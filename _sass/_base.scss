@@ -181,6 +181,16 @@ a::selection {
     background: #b4d5fe;
 }
 
+a code {
+    text-shadow: none;
+    text-decoration: underline;
+    color: $text-color, 20%;
+    
+    >:hover {
+        color: lighten($text-color, 40%);
+    }   
+}
+
 /**
  * Blockquotes
  */
