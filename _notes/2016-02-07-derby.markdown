@@ -1,0 +1,29 @@
+---
+layout: note
+title:  "Introducing Derby"
+date:   2016-02-07 15:14:42 -0800
+Category: note
+---
+
+[`Derby`](http://github.com/fcrepo4-labs/derby) is a [Fedora Repository](http://fedorarepository.org/) implementation in Ruby. It uses `RDF::LDP` and Sinatra to provide a drop-in Linked Data Platform server tracking work to standardize the Fedora API. The software resulted from a discussion at the [Hydra Developers Congress meeting](https://wiki.duraspace.org/display/FF/2016-02-04+Fedora+API+Meeting) at UC San Diego.
+
+If you have `rubygems`, you can install and run Derby with just a couple of commands:
+
+{% highlight sh %}
+$ gem install derby
+$ derby-ldp
+{% endhighlight %}
+
+### Why?
+
+Derby was started with a handful of goals in mind:
+
+ 1. Provides a fast moving testing ground for work on a Fedora API specification;
+ 1. Serves as a [drop-in replacement](https://github.com/projecthydra/ldp/pull/59/files#diff-ae2ec3dcdc20558980b6a210aa525e5bR6) for the Fedora reference implementation for testing client software;
+ 1. Stores repository object metadata directly in a swappable quadstore backend.
+
+### Status
+
+For now, Derby is a minimal LDP server. As the Fedora API discussion continues, I'll try to keep up by implementing services and data constraints as they emerge. Storage is currently in-memory by default, and I encourage you to treat the server as a useful toy. I will post additional notes as work progresses.
+
+Derby is licensed under Apache 2.0 and is part of [Fedora Commons Labs](https://github.com/fcrepo4-labs/).
