@@ -1,0 +1,75 @@
+@prefix cebtk:    <http://data.totl.net/cebkt/> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+@prefix lcsh:     <http://id.loc.gov/authorities/subjects/sh85005249> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:     <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+
+<> rdfs:label "Supplement to Celestial Emporium of Benevolent Knowledge's Taxonomy"@en ;
+  dcterms:description "This dataset extends the taxonomy of the animals credited (by Borges) to the Celestial Emporium of Benevolent Knowledge. It provides preferred labels, intra-KOS relationships, and mappings to various terms in LCSH." ;
+  dcterms:created  "2016-04-12"^^xsd:date ;
+  dcterms:modified "2016-04-12"^^xsd:date ;
+  rdfs:seeAlso <http://data.totl.net/cebkt> .
+  
+cebtk:A skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Those that belong to the emperor"@en ;
+  skos:prefLabel "pertenecientes al emperador"@es .
+
+cebtk:B skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Embalmed ones"@en ;
+  skos:prefLabel "embalsamados"@es .
+
+cebtk:C skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Those that are trained"@en ;
+  skos:prefLabel "amaestrados"@es ;
+  skos:relatedMatch lcsh:sh85038908 .
+
+cebtk:D skos:broadMatch lcsh:sh85005249, lcsh:sh85131235 ;
+  skos:prefLabel "Suckling pigs"@en ;
+  skos:prefLabel "lechones"@es .
+
+cebtk:E skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Mermaids (or Sirens)"@en ;
+  skos:prefLabel "sirenas"@es ;
+  skos:narrowMatch lcsh:sh85083861, lcsh:sh85122971 .
+
+cebtk:F skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Fabulous ones"@en ;
+  skos:prefLabel "fabulosos"@es .
+
+cebtk:G skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Stray dogs"@en ;
+  skos:prefLabel "perros sueltos"@es ;
+  skos:broadMatch lcsh:sh85038796 ;
+  skos:closeMatch lcsh:sh96008678 .
+
+cebtk:H skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Those that are included in this classification"@en ;
+  skos:prefLabel "incluidos en esta clasificación"@es ;
+  skos:narrower cebtk:A, cebtk:B, cebtk:C, cebtk:D, cebtk:E, cebtk:F, cebtk:G, 
+    cebtk:I, cebtk:J, cebtk:K, cebtk:L, cebtk:M, cebtk:N .
+
+cebtk:I skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Those that tremble as if they were mad"@en ;
+  skos:prefLabel "que se agitan como locos"@es .
+
+cebtk:J skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Innumerable ones"@en ;
+  skos:prefLabel "innumerables"@es .
+
+cebtk:K skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Those drawn with a very fine camel hair brush"@en ;
+  skos:prefLabel "dibujados con un pincel finísimo de pelo de camello"@es ;
+  skos:relatedMatch lcsh:sh85005283 .
+
+cebtk:L skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Et cetera"@en ;
+  skos:prefLabel "etcétera"@es .
+
+cebtk:M skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Those that have just broken the flower vase"@en ;
+  skos:prefLabel "que acaban de romper un jarrón"@es .
+
+cebtk:N skos:broadMatch lcsh:sh85005249 ;
+  skos:prefLabel "Those that, at a distance, resemble flies"@en ;
+  skos:prefLabel "que de lejos parecen moscas"@es .
