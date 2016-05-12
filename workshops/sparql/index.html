@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Querying & Linking Data with SPARQL</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .large { font-size: 2em; }
+      a, a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #777872;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top:  151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first, #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+    
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle, inverse
+
+# Querying & Linking Data with SPARQL
+
+## LODLAM Toronto
+
+---
+name: agenda
+
+.left-column[ 
+# Agenda 
+]
+
+.right-column[
+1. Why We Need a Graph Query Language
+1. Basic Graph Patterns
+1. Variables & Binding
+1. Query Forms
+1. Filters & Datatypes
+1. Optional Patterns, Union, & Negation
+1. SPARQL Datasets & RDF Named Graphs
+1. Other RDF Topics & Protocols
+]
+
+---
+
+.left-column[ 
+# Endpoints 
+]
+.right-column[
+- http://bit.ly/lodlamto-sparql
+- http://bnb.data.bl.uk/flint-sparql
+- http://vocab.getty.edu/sparql
+- http://dbpedia.org/snorql/
+
+.footnote[.red.bold[*] _(please be nice to the public servers)_]
+]
+
+---
+name: graphs
+
+.left-column[ 
+# About Graphs 
+]
+
+--
+
+.right-column[
+![A Graph](https://upload.wikimedia.org/wikipedia/commons/3/3a/GraphDatabase_PropertyGraph.png)
+]
+
+---
+
+template: graphs
+
+.right-column[
+## Querying
+
+### [SPARQL 1.1](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/): SPARQL Protocol and RDF Query Language.
+]
+
+---
+
+class: center, middle, inverse
+
+# Basic Graph Patterns
+
+---
+
+.left-column[ 
+# BGP
+]
+
+## Simple SELECT
+
+```sparql
+SELECT * WHERE { ?s ?p ?o }
+```
+
+This grabs and returns all the triples in the dataset.
+
+--
+
+Whoa! That might give a lot of solutions! Let's take a step back...
+
+--
+
+```sparql
+SELECT * WHERE { ?s ?p ?o } LIMIT 100
+```
+
+We can use `LIMIT` to reduce the size of the result set. Generally, this means our query doesn't need to load the whole set, and is much less resource intensive; especially over large potential result sets.
+
+---
+
+.left-column[ 
+# BGP
+]
+
+If we want to access additional results, we can introduce sorting and offsets
+to create paged results:
+
+--
+
+```sparql
+SELECT * WHERE { ?s ?p ?o } ORDER BY ?s LIMIT 100
+```
+
+--
+
+```sparql
+SELECT * WHERE { ?s ?p ?o } ORDER BY ?s LIMIT 100 OFFSET 100
+```
+
+---
+
+class: center, middle, inverse
+
+# Better Patterns
+
+## But can't we query for something interesting?
+
+---
+
+.left-column[ 
+# Better
+]
+
+```sparql
+PREFIX dct: <http://purl.org/dc/terms/>
+
+SELECT * WHERE {
+  ?item dct:license <http://creativecommons.org/publicdomain/zero/1.0/> .
+}
+```
+
+---
+
+.left-column[ 
+# Better
+]
+
+But I want to know the topic! I can use a group pattern to narrow my results:
+
+--
+
+```sparql
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT * WHERE {
+  ?item dct:license <http://creativecommons.org/publicdomain/zero/1.0/> .
+  ?item foaf:primaryTopic ?topic 
+}
+```
+
+---
+
+# A Note About Prefixes
+
+For the remainder of the queries in this tutorial, we'll assume the following
+prefixes:
+
+```sparql
+# Common Bibliographic Vocabularies
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
+PREFIX dct: <http://purl.org/dc/terms/>
+
+# W3C
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+```
+---
+
+class: center, middle, inverse
+
+# Variables & Binding
+
+---
+.left-column[ 
+# Binding
+]
+
+```sparql
+SELECT ?topic WHERE {
+  ?item dct:license <http://creativecommons.org/publicdomain/zero/1.0/> .
+  ?item foaf:primaryTopic ?topic 
+}
+```
+
+---
+
+.left-column[ 
+# Binding
+]
+
+Variables may be unbound in a result, as long as the pattern is satisfied. As a
+really basic example:
+
+```sparql
+SELECT ?s ?p ?o ?x WHERE { ?s ?p ?o }
+```
+
+--
+
+_This will be more interesting later, I promise._
+
+--
+
+We can also bind variables manually:
+
+```sparql
+SELECT ?s ?p ?o ?x WHERE {
+  ?s ?p ?o .
+  BIND("moomin" AS ?x)
+}
+```
+
+---
+
+# Blank Nodes
+
+.center[![Nameless Nodes, credit Vuk Miličić](http://milicicvuk.com/blog/wp-content/uploads/2011/07/bnode.png)]
+
+---
+
+# Blank Nodes
+
+We say "Blank Nodes are unnamed", though in serialization syntaxes, they
+commonly have identifers. These identifiers are always local to a document;
+they allow one Blank Node to be referenced in more than one statement.
+
+--
+
+```ntriples
+<http://example.org/moomin> dct:creator _:tove .
+_:tove rdf:type foaf:Person .
+```
+
+--
+
+Nodes may be identified by a different label each time the graph we retrieve a graph. In some serializations, the node may have no label at all:
+
+--
+
+```turtle
+<http://example.org/moomin> dct:creator [
+  a foaf:Person .
+] .
+```
+--
+
+## Blank Node Resources
+
+ - [RDF 1.1 Concepts & Abstract Syntax](http://www.w3.org/TR/rdf11-concepts/#section-blank-nodes)
+ - [Everything You Always Wanted to Know About Blank Nodes](http://www.websemanticsjournal.org/index.php/ps/article/download/365/387)
+ - [Problems of the RDF model: Blank Nodes](http://milicicvuk.com/blog/2011/07/14/problems-of-the-rdf-model-blank-nodes/) (pre-RDF 1.1)
+
+---
+
+class: center, middle, inverse
+
+# Query Forms: SELECT
+
+---
+
+class: middle
+
+> The SELECT form of results returns variables and their bindings directly. It
+> combines the operations of projecting the required variables with introducing
+> new variable bindings into a query solution.
+
+--
+
+.center[# _OK?!_]
+
+---
+
+class: center, middle, inverse
+
+# Query Forms: CONSTRUCT
+
+---
+
+.left-column[ 
+# CONSTRUCT
+]
+
+<br/><br/><br/><br/>
+
+`CONSTRUCT` queries can be used to create a new graph structured from the query
+results.
+
+--
+
+```sparql
+CONSTRUCT {
+  ?item dct:title ?title
+} WHERE {
+  ?item dct:title ?title
+}
+```
+
+--
+
+```sparql
+CONSTRUCT WHERE { ?item dct:title ?title }
+```
+
+--
+
+Expand on this by querying for other properties of the item:
+
+```sparql
+CONSTRUCT WHERE {
+  ?item dct:title ?title
+  ?item dct:creator ?creator
+}
+```
+
+---
+
+# Constructing New Data
+
+I would really like to pretend all of Tove Jansson's work are this:
+
+.center[![Comet in Moominland](http://t0.gstatic.com/images?q=tbn:ANd9GcTdeIvBI5iJNgsnSzZfeoyoiSTSUq7EEgzoRwehISDsa82jLunU)]
+
+---
+
+.left-column[ 
+# CONSTRUCT
+]
+<br/><br/><br/><br/>
+
+```sparql
+CONSTRUCT {
+  ?item dct:title "Comet in Moominland" .
+  ?item dct:modified ?now
+} WHERE {
+  ?item dct:creator ?person .
+  ?person rdf:type foaf:Person .
+  ?person owl:sameAs <http://viaf.org/viaf/111533709> .
+  BIND(now() AS ?now) 
+}
+```
+
+---
+
+class: center, middle, inverse
+
+# Query Forms: ASK
+
+---
+
+class: middle
+
+> Applications can use the ASK form to test whether or not a query pattern
+> has a solution. No information is returned about the possible query
+> solutions, just whether or not a solution exists.
+
+---
+
+.left-column[ 
+# ASK
+]
+
+For a non-empty dataset, this is always `true`:
+
+```sparql
+ASK { ?s ?p ?o }
+```
+
+--
+
+Do we have any books by Tove Jansson?
+
+```sparql
+ASK {
+  ?item rdf:type bibo:Book .
+  ?item dct:creator <http://bnb.data.bl.uk/id/person/JanssonTove>
+}
+```
+
+---
+
+class: center, middle, inverse
+
+# Query Forms: DESCRIBE
+
+---
+
+class: middle
+
+> The DESCRIBE form returns a single result RDF graph containing RDF data about
+> resources... The description is determined by the query service.
+
+---
+
+.left-column[ 
+## DESCRIBE
+]
+
+Typically, `DESCRIBE` returns all statements with the selected resource(s) in
+the subject place.
+
+```sparql
+DESCRIBE <http://bnb.data.bl.uk/id/person/JanssonTove>
+```
+
+--
+
+You can select multiple resources with `WHERE`.
+
+```sparql
+DESCRIBE ?book WHERE {
+  ?item rdf:type bibo:Book .
+  ?item dct:creator <http://bnb.data.bl.uk/id/person/JanssonTove>
+}
+```
+
+---
+
+class: center, middle, inverse
+
+# Filters & Datatypes
+
+---
+
+.left-column[ 
+## Filters
+]
+
+So far we haven't queried for any literal values. How can we discover resources
+with SPARQL when we don't already know URIs?
+
+```sparql
+SELECT ?item WHERE {
+   ?item dct:creator ?tove .
+   ?tove foaf:name ?name .
+   FILTER(?name = "Tove Jansson")
+}
+```
+
+---
+
+.left-column[ 
+## Filters
+]
+
+And we have functions! We saw a function before with `now()`, here, `regex()`
+comes in handy:
+
+```sparql
+SELECT ?item ?tove WHERE {
+   ?item dct:creator ?tove .
+   ?tove foaf:name ?name .
+   FILTER regex(?name, "^Tove")
+}
+```
+
+---
+
+## Functions
+
+- IF
+- EXISTS/NOT EXISTS
+- sameTerm
+- isIRI/isLiteral/isBlank
+- lang
+- datatype
+- etc&hellip;
+
+A full (long) list of default function definitions is in the [SPARQL 1.1 specification](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#SparqlOps).
+
+Other functions may be available as extensions for a specific server. For example: [GeoSPARQL](http://www.opengeospatial.org/standards/geosparql) provides a suite of these for handling spatial data.
+
+---
+
+.left-column[ 
+## Datatypes
+]
+
+---
+
+.left-column[ 
+## Languages
+]
+
+---
+
+class: center, middle, inverse
+
+# Optional Patterns & Union
+
+---
+
+.left-column[ 
+## Optional Patterns 
+]
+
+What if we know a bit less about the contents of the data, or some results may
+be less rich? Let's try optional patterns.
+
+```sparql
+SELECT ?creator ?name WHERE {
+   ?item dct:creator ?creator .
+   OPTIONAL { ?creator foaf:name ?name } .
+}
+```
+
+--
+
+Lots of repeated results there, let's squash them down:
+
+```sparql
+SELECT DISTINCT ?creator ?name WHERE {
+   ?item dct:creator ?creator .
+   OPTIONAL { ?creator foaf:name ?name } .
+}
+```
+
+---
+
+.left-column[ 
+# Union
+]
+
+You can use alternative patterns with `UNION`:
+
+```sparql
+SELECT DISTINCT ?creator ?name WHERE {
+   ?item dct:creator ?creator .
+   { ?creator foaf:name ?name } UNION { ?creator rdfs:label ?name }
+}
+```
+
+---
+
+class: center, middle, inverse
+
+# SPARQL Datasets & RDF Named Graphs
+
+---
+
+class: center, middle
+
+![Graphs](http://www.w3.org/TR/rdf11-mt/RDF11SemanticsDiagrams/example5.jpg)
+
+A SPARQL endpoint provides access to a _SPARQL Dataset_, and a _Dataset_ may
+contain multiple graphs.
+
+---
+
+.left-column[ 
+## Named Graphs
+]
+
+In the sample dataset, we have graph names:
+
+```sparql
+SELECT ?g WHERE { GRAPH ?g {} }
+```
+
+--
+
+ - bd:nullGraph (Blazegraph's Default Graph)
+ - <http://lodlam.net/ns/slick_rick>
+ - <http://lodlam.net/ns/b.i.g.>
+
+--
+
+We can query named graphs with syntax like:
+
+```sparql
+SELECT * WHERE { GRAPH <http://lodlam.net/ns/slick_rick> { ?s ?p ?o }}
+```
+
+---
+
+class: inverse
+
+# Other RDF Topics & Protocols
+
+### [SPARQL Update](http://www.w3.org/TR/2013/REC-sparql11-update-20130321/)
+
+### [SPARQL Graph Store Protocol](http://www.w3.org/TR/2013/REC-sparql11-http-rdf-update-20130321/)
+
+### [Property Path Syntax](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#pp-language)
+
+### [Linked Data Platform](http://www.w3.org/TR/ldp/)
+
+ - [LDP Primer](http://www.w3.org/TR/ldp-primer/)
+
+
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
