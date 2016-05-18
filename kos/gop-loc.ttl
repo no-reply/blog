@@ -1,0 +1,33 @@
+
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+@prefix lcsh: <http://id.loc.gov/authorities/subjects/> .
+@prefix mads: <http://www.loc.gov/mads/rdf/v1#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+lcsh:sh85003545 mads:authoritativeLabel "Noncitizens"@en ;
+                skos:prefLabel "Noncitizens"@en ;
+                rdfs:label "Noncitizens"@en ;
+                mads:elementList _:noncitizen_list .
+
+_:noncitizen_list rdf:first _:noncitizen_element ;
+                  rdf:rest rdf:nil .
+
+_:noncitizen_element a mads:TopicElement ;
+                     mads:elementValue "Noncitizens"@en .
+
+lcsh:sh85003553 a mads:DeprecatedAuthority .
+
+lcsh:sh85025797 mads:authoritativeLabel "Church work with noncitizens"@en ;
+                skos:prefLabel "Church work with noncitizens"@en ;
+                rdfs:label "Church work with noncitizens"@en ;
+                mads:elementList _:church_list .
+
+_:church_list rdf:first _:church_element ;
+              rdf:rest rdf:nil .
+
+_:church_element a mads:TopicElement ;
+                 mads:elementValue "Church work with noncitizens"@en .
+
+
+
