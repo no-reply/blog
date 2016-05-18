@@ -8,7 +8,7 @@
 <> rdfs:label "Supplement to Celestial Emporium of Benevolent Knowledge's Taxonomy"@en ;
   dcterms:description "This dataset extends the taxonomy of the animals credited (by Borges) to the Celestial Emporium of Benevolent Knowledge. It provides preferred labels, intra-KOS relationships, and mappings to various terms in LCSH." ;
   dcterms:created  "2016-04-12"^^xsd:date ;
-  dcterms:modified "2016-04-12"^^xsd:date ;
+  dcterms:modified "2016-05-18"^^xsd:date ;
   rdfs:seeAlso <http://data.totl.net/cebkt> .
   
 cebtk:A skos:broadMatch lcsh:sh85005249 ;
