@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Querying & Linking Data with SPARQL</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      blockquote { font-style: oblique; }
+      cite { 
+        font-size: 0.825em;
+        font-style: normal; 
+      }
+      cite::before { 
+        content: "— ";
+      }
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .large { font-size: 2em; }
+      a, a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #eaeaea;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top:  151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first, #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+    
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle, inverse
+
+<!-- 30 seconds -->
+
+# Two Projects
+
+### Data Lab Meeting 
+### 2017-04-20
+
+---
+
+class: inverse
+
+# Agenda
+
+1. Understanding Change in Knowledge Organization Systems
+
+1. JSTOR Usage
+
+---
+
+class: inverse
+
+# Change in KOS: Background
+
+  - How do changes in managed KOS & Ontologies take place? How do they impact instance data & users?
+
+  - Prior work: 
+    - versioning schemes
+    - motivations for change
+    - strategies for preserving forward/backward compatibility
+
+  - "Ontogenic Observatory"
+    - Collect at scale
+    - Public APIs
+    - Explore reporting & visualization
+
+---
+
+class: inverse
+
+# Change in KOS: Platform
+
+  - Linked Data Platform (REST)
+  - SKOS -- Simple Knowedge Organization System
+    - Concept Schemes
+    - Broader/Narrower
+  - Memento
+  - PROV-O
+
+--
+
+# Memento
+![Memento](memento-architecture-s.png)
+
+---
+
+<!-- # LDP, Memento & PROV-O-->
+# PROV-O
+![PROV-O](starting-points.svg)
+
+---
+
+class: inverse
+
+# Data Collection
+
+  - Collecting data from a variety of classification systems & ontologies
+
+  - So Far:
+    - ACM
+    - Foundational Model of Anatomy
+    - Wikipedia Categories/DBpedia/WikiData
+
+---
+
+class: inverse
+
+# JSTOR Usage: What We Have
+
+  - Usage data since 1997
+  - Article metadata
+    - Internal taxonomy
+  - Citation graph (JSTOR holdings only)
+  - For registered users:
+    - Discipline
+    - Academic status
+
+---
+
+class: inverse
+
+# JSTOR Usage: Research Questions
+
+## "Google Scholar Effect"
+
+--
+
+## Does Usage Predict Impact?
+
+--
+
+## Understanding User Tasks
+
+---
+
+class: inverse
+
+# JSTOR Usage: The Problems
+
+  - Three eras of data:
+    - Log File (1997-2008)
+    - Limited Event Architecture (2008-2014)
+    - Event Proliferation (2014-present)
+
+![JSTOR Events](jstor-events.png)
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
