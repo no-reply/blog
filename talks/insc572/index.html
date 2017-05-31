@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Querying & Linking Data with SPARQL</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+      .remark-slide-content h1 { font-size: 3em; }
+      .remark-slide-content h2 { font-size: 2em; }
+      .remark-slide-content h3 { font-size: 1.6em; }
+      .footnote {
+        position: absolute;
+        bottom: 3em;
+      }
+      blockquote { font-style: oblique; }
+      cite { 
+        font-size: 0.825em;
+        font-style: normal; 
+      }
+      cite::before { 
+        content: "— ";
+      }
+      li p { line-height: 1.25em; }
+      .red { color: #fa0000; }
+      .large { font-size: 2em; }
+      a, a > code {
+        color: rgb(249, 38, 114);
+        text-decoration: none;
+      }
+      code {
+        background: #e7e8e2;
+        border-radius: 5px;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+      .remark-code-line-highlighted     { background-color: #373832; }
+      .pull-left {
+        float: left;
+        width: 47%;
+      }
+      .pull-right {
+        float: right;
+        width: 47%;
+      }
+      .pull-right ~ p {
+        clear: both;
+      }
+      #slideshow .slide .content code {
+        font-size: 0.8em;
+      }
+      #slideshow .slide .content pre code {
+        font-size: 0.9em;
+        padding: 15px;
+      }
+      .inverse {
+        background: #272822;
+        color: #eaeaea;
+        text-shadow: 0 0 20px #333;
+      }
+      .inverse h1, .inverse h2 {
+        color: #f3f3f3;
+        line-height: 0.8em;
+      }
+
+      /* Slide-specific styling */
+      #slide-inverse .footnote {
+        bottom: 12px;
+        left: 20px;
+      }
+      #slide-how .slides {
+        font-size: 0.9em;
+        position: absolute;
+        top:  151px;
+        right: 140px;
+      }
+      #slide-how .slides h3 {
+        margin-top: 0.2em;
+      }
+      #slide-how .slides .first, #slide-how .slides .second {
+        padding: 1px 20px;
+        height: 90px;
+        width: 120px;
+        -moz-box-shadow: 0 0 10px #777;
+        -webkit-box-shadow: 0 0 10px #777;
+        box-shadow: 0 0 10px #777;
+      }
+      #slide-how .slides .first {
+        background: #fff;
+        position: absolute;
+        top: 20%;
+        left: 20%;
+        z-index: 1;
+      }
+      #slide-how .slides .second {
+        position: relative;
+        background: #fff;
+        z-index: 0;
+      }
+
+      /* Two-column layout */
+      .left-column {
+        color: #777;
+        width: 20%;
+        height: 92%;
+        float: left;
+      }
+        .left-column h2:last-of-type, .left-column h3:last-child {
+          color: #000;
+        }
+      .right-column {
+        width: 75%;
+        float: right;
+        padding-top: 1em;
+      }
+    
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle, inverse
+
+<!-- 30 seconds -->
+
+# A Phenomenological & Ethnographic Approach to the Study of eScience Infrastructure
+
+## INSC 572, University of Washington iSchool
+
+???
+
+Presenting a research plan
+
+---
+
+class: inverse, center, middle
+
+<blockquote style="font-size: 1.67em">In the good old days physicists repeated each other's experiments, just to be sure. Today they stick to FORTRAN, so that they can share each other's programs, bugs included.<cite>Edsger W.Dijkstra, EWD 498: How do we tell truths that might hurt?, 18 June 1975</cite></blockquote>
+
+???
+
+Start with the most blunt expression of the probelm that I could find.
+---
+layout: false
+
+.left-column[
+## Fourth Paradigm
+]
+
+.right-column[
+<blockquote>The techniques and technologies for such data-intensive science are so different that it is worth distinguishing data-intensive science from computational science as a new, fourth paradigm for scientific exploration.</blockquote>
+<blockquote>We have to do better at producing tools to support the whole research cycle—from data capture and data curation to data analysis and data visualization</blockquote>
+]
+
+.footnote[.cite[Tony Hey, Stewart Tansley, and Kristin Tolle. Jim Gray on eScience: A transformed scientific method.]]
+
+---
+
+.left-column[
+## Fourth Paradigm
+## eScience
+]
+
+.right-column[
+
+<blockquote>The techniques and technologies for such data-intensive science are so different that it is worth distinguishing data-intensive science from computational science as a new, fourth paradigm for scientific exploration.</blockquote>
+<blockquote>We have to do better at producing tools to support the whole research cycle—from data capture and data curation to data analysis and data visualization</blockquote>
+
+- Renewed emphasis on tools/instrumentation
+- Increased role of information systems
+- Data-intensive/"Data Science"
+- Questions about epistemological impact
+]
+
+---
+
+.left-column[
+## Infrastructure
+]
+
+.right-column[
+### Properties
+
+- Embeddedness
+- <strong>Transparency</strong>
+- Reach or Scope
+- Learned as Part of Membership
+- Links with Conventions of Practice
+- Embodiment of Standards
+- Built on an Installed Base
+- <strong>Becomes Visible on Breakdown</strong>
+- Is Fixed in Modular Increments
+
+.footnote[.cite[Susan Leigh Star. 1999. The ethnography of infrastructure. American Behavioral Scientist 43, 3 (1999), 377–391. DOI: 10.1177/00027649921955326]]
+]
+
+---
+
+.left-column[
+## Infrastructure
+
+## Breakdown
+]
+
+.right-column[
+
+### Properties
+
+- Embeddedness
+- <strong>Transparency</strong>
+- Reach or Scope
+- Learned as Part of Membership
+- Links with Conventions of Practice
+- Embodiment of Standards
+- Built on an Installed Base
+- <strong>Becomes Visible on Breakdown</strong>
+- Is Fixed in Modular Increments
+
+<blockquote>Breakdown is <strong>quotidian</strong> in data-intensive science practice</blockquote>
+]
+
+.footnote[.cite[Anissa Tanweer, Brittany Fiore-Gartland, and Cecilia Aragon. 2016. Impediment to insight to innovation: understanding data assemblages through the breakdown–repair process. Information, Communication and Society 19, 6 (2016), 736–752. DOI: 10.1080/1369118X.2016.1153125]]
+
+---
+
+# Questions
+
+<blockquote style="font-size: 1.33em">RQ1: How do data scientists experience tools in moments of breakdown?</blockquote>
+
+### Why Experience?
+
+  - Phenomenological stance
+  - Interested <em>mediation</em>
+
+---
+
+# Questions
+
+<blockquote style="font-size: 1.33em">RQ1: How do data scientists experience tools in moments of breakdown?</blockquote>
+
+### Why Experience?
+
+  - Phenomenological stance
+  - Interested <em>mediation</em>
+
+<blockquote style="font-size: 1.33em">RQ2: How do open source communities guide the growth and repair of eScience infrastructures?</blockquote>
+
+### Why Open Source?
+
+- Complex networks of dependencies
+- Broad reach
+- Access to communities (public facing channels)
+- rOpenSci as exemplar community
+
+---
+
+class: center, middle, inverse
+
+# Methodology
+
+---
+
+.left-column[
+## Phenomenology
+]
+
+.right-column[
+
+<br>
+<blockquote>Investigate <em>active role of technology</em> in scientific interpretation</blockquote>
+
+### Focus on:
+
+  - Experiences of breakdown
+  - Researcher as participant
+]
+
+.footnote[.cite[Clark E Moustakas. 1994. Phenomenological Research Methods. Sage, Thousand Oaks, CA.]]
+---
+
+.left-column[
+## Phenomenology
+## Ethnography
+]
+
+.right-column[
+<br>
+<blockquote>Investigate <em>active role of technology</em> in scientific interpretation</blockquote>
+
+### Focus on:
+
+  - Immediate, momentary experiences 
+  - Direct access to phenomena
+  - Researcher as participant
+
+<blockquote>Investigate cultural processes</blockquote>
+
+### Focus on:
+  - Long term processes
+  - Depth of analysis
+  - Community/culture
+]
+
+.footnote[.cite[Susan Leigh Star. 1999. The ethnography of infrastructure. American Behavioral Scientist 43, 3 (1999), 377–391. DOI: 10.1177/00027649921955326]]
+
+---
+
+# Methods
+
+## Interviews
+- Phenomenological Interviews
+- Extended Ethnographic Interviews
+
+## Participant Observation
+- Attendence/Participation at conferences, unconferences, hackathons
+- Online Ethnographic Methods
+
+## Hermeneutics
+- Investigation of code and data artifacts
+
+---
+
+class: center, middle, inverse
+
+# Aside: My Insider Status
+
+---
+
+# Next Steps/Questions
+
+  - Continue to refine design
+  - Develop interview protocols
+  - Coursework in Ethnographic Fieldwork?
+  - Is transcendential phenomenology (Moustakas) appropriate?
+  - Initial contact with communities
+    - Oral history of #rCatLadies and #rDogFellas.
+
+.footnote[email: <a href="mailto:n0reply@uw.edu">n0reply@uw.edu</a><br>tweet: <a href="http://twitter.com/no_reply">@no_reply</a><br>slides: http://bit.ly/]
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
